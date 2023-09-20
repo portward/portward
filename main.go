@@ -9,12 +9,11 @@ import (
 
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/gorilla/mux"
-	"gopkg.in/yaml.v3"
-
 	_ "github.com/portward/cerbos-authorizer"
 	"github.com/portward/registry-auth-config/config"
 	"github.com/portward/registry-auth/auth"
 	"github.com/portward/registry-auth/auth/authn"
+	"gopkg.in/yaml.v3"
 )
 
 func init() {
