@@ -1,4 +1,15 @@
-# Portward
+<p align="center">
+  <a href="https://twirphp.github.io">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="resources/logo-dark.png">
+      <img alt="Portward logo" src="resources/logo.png">
+    </picture>
+  </a>
+
+  <h1 align="center">
+    Portward
+  </h1>
+</p>
 
 [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/portward/portward/ci.yaml?style=flat-square)](https://github.com/portward/portward/actions/workflows/ci.yaml)
 [![go.dev reference](https://img.shields.io/badge/go.dev-reference-007d9c?logo=go&logoColor=white&style=flat-square)](https://pkg.go.dev/mod/github.com/portward/portward)
