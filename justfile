@@ -15,7 +15,8 @@ test:
     go test -race -v ./...
 
 download-alpine:
-    mkdir -p var/archives/{skopeo,regclient}
+    mkdir -p var/archives/skopeo
+    mkdir -p var/archives/regclient
     skopeo --insecure-policy copy -a docker://docker.io/library/alpine:latest oci-archive://$PWD/var/archives/skopeo/alpine.tar.gz
     regctl --verbosity debug image export docker.io/library/alpine:latest $PWD/var/archives/regclient/alpine.tar.gz
 
