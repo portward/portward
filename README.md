@@ -2,7 +2,7 @@
   <a href="https://twirphp.github.io">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="resources/logo-dark.png">
-      <img alt="Portward logo" src="resources/logo.png">
+      <img alt="Portward logo" src="resources/logo.png" height="300">
     </picture>
   </a>
 
