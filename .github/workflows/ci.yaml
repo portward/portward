@@ -87,7 +87,7 @@ jobs:
         run: docker compose -f docker-compose.yaml -f docker-compose.ci.yaml up -d
 
       - name: Test
-        run: nix develop --impure .#ci -c just login test-push
+        run: nix develop --impure .#ci -c just login test-all
 
       - name: Cleanup Docker Compose
         run: docker compose -f docker-compose.yaml -f docker-compose.ci.yaml down -v

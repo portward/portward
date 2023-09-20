@@ -1,7 +1,6 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"log/slog"
 	"net/http"
@@ -9,11 +8,12 @@ import (
 
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/gorilla/mux"
-	_ "github.com/portward/cerbos-authorizer"
-	"github.com/portward/registry-auth-config/config"
 	"github.com/portward/registry-auth/auth"
 	"github.com/portward/registry-auth/auth/authn"
+	flag "github.com/spf13/pflag"
 	"gopkg.in/yaml.v3"
+
+	"github.com/portward/portward/config"
 )
 
 func init() {
@@ -147,8 +147,8 @@ func main() {
 	}
 
 	server := auth.TokenServer{
-		Service: service,
-		Logger:  logger,
+		Service:      service,
+		ErrorHandler: auth.LogErrorHandler{Logger: logger},
 	}
 
 	router := mux.NewRouter()

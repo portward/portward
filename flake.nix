@@ -24,7 +24,9 @@
 
             packages = with pkgs; [
               just
+
               skopeo
+              regctl
             ] ++ [
               self'.packages.golangci-lint
               self'.packages.service-locator-gen
