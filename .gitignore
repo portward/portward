@@ -1,0 +1,6 @@
+/.devenv/
+/.direnv/
+/go.work
+/go.work.sum
+/var/
+/.htpasswd

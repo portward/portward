@@ -1,0 +1,39 @@
+{
+    "requestId": "quickstart",
+    "principal": {
+        "id": "user",
+        "roles": [
+            "user"
+        ]
+    },
+    "resources": [
+        {
+            "actions": [
+                "pull",
+                "push"
+            ],
+            "resource": {
+                "kind": "repository",
+                "id": "user/myrepo",
+                "attr": {
+                    "public": false,
+                    "flagged": false
+                }
+            }
+        },
+        {
+            "actions": [
+                "pull",
+                "push"
+            ],
+            "resource": {
+                "kind": "repository",
+                "id": "myrepo",
+                "attr": {
+                    "public": false,
+                    "flagged": false
+                }
+            }
+        }
+    ]
+}

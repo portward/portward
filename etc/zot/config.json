@@ -1,0 +1,20 @@
+{
+    "distSpecVersion": "1.1.0-dev",
+    "storage": {
+        "rootDirectory": "/var/lib/registry"
+    },
+    "http": {
+        "address": "0.0.0.0",
+        "port": "5001",
+        "auth": {
+            "bearer": {
+                "realm": "http://127.0.0.1:8080/token",
+                "service": "localhost:5001",
+                "cert": "/etc/zot/root.crt"
+            }
+        }
+    },
+    "log": {
+        "level": "debug"
+    }
+}

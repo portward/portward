@@ -1,0 +1,11 @@
+version: "3.9"
+
+services:
+  portward:
+    build: .
+    command: [portward, -addr, 0.0.0.0:8080, -debug, -realm, localhost:8080, -config, /etc/portward/config.yaml]
+    ports:
+      - 127.0.0.1:8080:8080
+    volumes:
+      - ./config.yaml:/etc/portward/config.yaml
+      - ./private_key.pem:/private_key.pem

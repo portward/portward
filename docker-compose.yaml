@@ -1,0 +1,27 @@
+version: "3.9"
+
+services:
+  docker:
+    image: registry:2.8.2
+    ports:
+      - 127.0.0.1:5000:5000
+    volumes:
+      - ./var/docker:/var/lib/registry
+      - ./etc/docker:/etc/docker/registry
+
+  zot:
+    # image: ghcr.io/project-zot/zot-linux-arm64:v2.0.0-rc6
+    image: ghcr.io/sagikazarmark/zot:auth-fix
+    ports:
+      - 127.0.0.1:5001:5001
+    volumes:
+      - ./var/zot:/var/lib/registry
+      - ./etc/zot:/etc/zot
+
+  cerbos:
+    image: ghcr.io/cerbos/cerbos:0.30.0
+    ports:
+      - 127.0.0.1:3592:3592
+      - 127.0.0.1:3593:3593
+    volumes:
+      - ./etc/cerbos/policies:/policies

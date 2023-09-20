@@ -1,0 +1,30 @@
+version: 0.1
+
+log:
+  level: debug
+  fields:
+    service: registry
+
+storage:
+  cache:
+    blobdescriptor: inmemory
+  filesystem:
+    rootdirectory: /var/lib/registry
+
+http:
+  addr: :5000
+  headers:
+    X-Content-Type-Options: [nosniff]
+
+auth:
+  token:
+    realm: http://127.0.0.1:8080/token
+    service: localhost:5000
+    issuer: localhost:8080
+    rootcertbundle: /etc/docker/registry/root.crt
+
+health:
+  storagedriver:
+    enabled: true
+    interval: 10s
+    threshold: 3

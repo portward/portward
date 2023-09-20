@@ -1,0 +1,26 @@
+passwordAuthenticator:
+  type: user
+  config:
+    entries:
+      - username: user
+        enabled: true
+        # password is "password"
+        passwordHash: $2a$12$vox7h99HV.gzbZGeBj69jeJVgkkP2nHTndG9USjp..00.WtIqvSpa
+
+accessTokenIssuer:
+  type: jwt
+  config:
+    issuer: localhost:8080
+    privateKeyFile: private_key.pem
+    expiration: 15m
+
+refreshTokenIssuer:
+  type: jwt
+  config:
+    issuer: localhost:8080
+    privateKeyFile: private_key.pem
+
+authorizer:
+  type: default
+  config:
+    allowAnonymous: false
