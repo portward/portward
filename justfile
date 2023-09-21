@@ -9,7 +9,7 @@ build:
     go build -o build/portward .
 
 run:
-    go run . --addr 0.0.0.0:8080 --debug --realm localhost:8080
+    go run . --addr 0.0.0.0:8080 --debug --realm localhost:8080 --config config.local.yaml
 
 test:
     go test -race -v ./...

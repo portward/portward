@@ -7,6 +7,12 @@ passwordAuthenticator:
         # password is "password"
         passwordHash: $2a$12$vox7h99HV.gzbZGeBj69jeJVgkkP2nHTndG9USjp..00.WtIqvSpa
 
+# passwordAuthenticator:
+#   type: unkey
+#   config:
+#     apiId: API_ID
+#     rootKey: ROOT_KEY
+
 accessTokenIssuer:
   type: jwt
   config:
@@ -24,3 +30,10 @@ authorizer:
   type: default
   config:
     allowAnonymous: false
+
+# authorizer:
+#   type: cerbos
+#   config:
+#     address: 127.0.0.1:3593
+#     options:
+#       plaintext: true

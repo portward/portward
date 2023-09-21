@@ -1,6 +1,8 @@
 /.devenv/
 /.direnv/
+/.env
 /build/
+/config.local.yaml
 /go.work
 /go.work.sum
 /var/

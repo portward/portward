@@ -7,8 +7,9 @@ require (
 	github.com/golang-jwt/jwt/v4 v4.5.0
 	github.com/gorilla/mux v1.8.0
 	github.com/mitchellh/mapstructure v1.5.0
-	github.com/portward/cerbos-authorizer v0.0.1
+	github.com/portward/cerbos-authorizer v0.0.4
 	github.com/portward/registry-auth v0.0.1
+	github.com/portward/unkey-authenticator v0.0.2
 	github.com/spf13/pflag v1.0.5
 	github.com/stretchr/testify v1.8.4
 	gopkg.in/yaml.v3 v3.0.1

@@ -12,6 +12,12 @@ resourcePolicy:
         match:
           expr: R.id.indexOf('/') == -1
 
+    # Allow pushing to every namespace for the admin user
+    - actions: ['push', 'pull']
+      effect: EFFECT_ALLOW
+      roles:
+        - admin
+
     # Allow pushing to the default namespace for the admin user
     - actions: ['push']
       effect: EFFECT_ALLOW
@@ -32,3 +38,16 @@ resourcePolicy:
       condition:
         match:
           expr: R.id.startsWith("%s/".format([P.id]))
+
+    # Allow pulling from entitled namespaces
+    - actions: ['pull']
+      effect: EFFECT_ALLOW
+      roles:
+        - '*'
+      condition:
+        match:
+          all:
+            of:
+              # Make sure there is a namespace
+              - expr: R.id.indexOf('/') > 0
+              - expr: R.id.split("/")[0] in P.attr.entitlements
