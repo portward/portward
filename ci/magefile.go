@@ -67,7 +67,6 @@ func Test(ctx context.Context) error {
 
 	// Prepare
 	{
-
 		client := client.Pipeline("Prepare")
 
 		{
