@@ -19,17 +19,21 @@
           default = {
             languages = {
               go.enable = true;
-              go.package = pkgs.lib.mkDefault pkgs.go_1_21;
+              go.package = pkgs.go_1_21;
             };
 
             packages = with pkgs; [
               just
+              mage
+              # dagger
+              (bats.withLibraries (p: [ p.bats-support p.bats-assert p.bats-file ]))
 
               skopeo
               regctl
             ] ++ [
               self'.packages.golangci-lint
               self'.packages.service-locator-gen
+              self'.packages.dagger
             ];
 
             # https://github.com/cachix/devenv/issues/528#issuecomment-1556108767
@@ -37,14 +41,6 @@
           };
 
           ci = devenv.shells.default;
-
-          ci_1_21 = {
-            imports = [ devenv.shells.ci ];
-
-            languages = {
-              go.package = pkgs.go_1_21;
-            };
-          };
         };
 
         packages = {
@@ -106,6 +102,27 @@
               license = licenses.gpl3Plus;
               maintainers = with maintainers; [ anpryl manveru mic92 ];
             };
+          };
+
+          dagger = pkgs.buildGoModule rec {
+            pname = "dagger";
+            version = "0.8.7";
+
+            src = pkgs.fetchFromGitHub {
+              owner = "dagger";
+              repo = "dagger";
+              rev = "v${version}";
+              hash = "sha256-vlHLqqUMZAuBgI5D1L2g6u3PDZsUp5oUez4x9ydOUtM=";
+            };
+
+            vendorHash = "sha256-B8Qvyvh9MRGFDBvc/Hu+IitBBdHvEU3QjLJuIy1S04A=";
+            proxyVendor = true;
+
+            subPackages = [
+              "cmd/dagger"
+            ];
+
+            ldflags = [ "-s" "-w" "-X github.com/dagger/dagger/engine.Version=${version}" ];
           };
         };
       };

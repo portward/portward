@@ -1,0 +1,21 @@
+_login() {
+    skopeo --debug login --tls-verify=false -u $1 -p $2 $3
+}
+
+_logout() {
+    skopeo --debug logout $1
+}
+
+push() {
+    skopeo --debug --insecure-policy copy --dest-tls-verify=false -a oci-archive://$1 docker://$2
+}
+
+inspect() {
+    skopeo --insecure-policy --override-os linux --override-arch amd64 inspect --tls-verify=false docker://$1
+}
+
+pull() {
+    skopeo --insecure-policy copy --src-tls-verify=false -a docker://$1 oci-archive:///dev/null
+}
+
+# vim:syntax=bash filetype=bash

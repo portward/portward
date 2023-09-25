@@ -1,0 +1,7 @@
+.devenv/
+.direnv/
+.github/
+bin/
+build/
+ci/
+var/

@@ -19,8 +19,8 @@ http:
 auth:
   token:
     realm: http://127.0.0.1:8080/token
-    service: localhost:5000
-    issuer: localhost:8080
+    service: 127.0.0.1:5000
+    issuer: issuer.portward.dev
     rootcertbundle: /etc/docker/registry/root.crt
 
 health:
