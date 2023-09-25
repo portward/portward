@@ -24,12 +24,6 @@ passwordAuthenticator:
         attributes:
           roles: [system]
 
-# passwordAuthenticator:
-#   type: unkey
-#   config:
-#     apiId: API_ID
-#     rootKey: ROOT_KEY
-
 accessTokenIssuer:
   type: jwt
   config:
@@ -43,14 +37,9 @@ refreshTokenIssuer:
     issuer: issuer.portward.dev
     privateKeyFile: private_key.pem
 
-# authorizer:
-#   type: default
-#   config:
-#     allowAnonymous: false
-
 authorizer:
   type: cerbos
   config:
-    address: 127.0.0.1:3593
+    address: cerbos:3593
     options:
       plaintext: true

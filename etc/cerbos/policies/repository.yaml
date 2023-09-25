@@ -3,47 +3,37 @@ resourcePolicy:
   version: "default"
   resource: "repository"
   rules:
-    # Allow pulling from the default namespace
+    # Allow pulling from the default namespace for admins and users
     - actions: ['pull']
       effect: EFFECT_ALLOW
       roles:
-        - '*'
+        - admin
+        - user
       condition:
         match:
           expr: R.id.indexOf('/') == -1
 
-    # Allow pushing to every namespace for the admin user
+    # Allow pushing to every namespace for admins
     - actions: ['push', 'pull']
       effect: EFFECT_ALLOW
       roles:
         - admin
 
-    # Allow pushing to the default namespace for the admin user
-    - actions: ['push']
-      effect: EFFECT_ALLOW
-      roles:
-        - '*'
-      condition:
-        match:
-          all:
-            of:
-              - expr: R.id.indexOf('/') == -1
-              - expr: P.id == 'admin'
-
     # Allow pulling/pushing from/to user namespaces
     - actions: ['pull', 'push']
       effect: EFFECT_ALLOW
       roles:
-        - '*'
+        - admin
+        - user
       condition:
         match:
           expr: R.id.startsWith("%s/".format([P.id]))
 
-    # Allow pulling from entitled namespaces
+    # Allow pulling from namespaces matching entitlements
     - actions: ['pull']
       effect: EFFECT_ALLOW
       roles:
-        - '*'
+        - customer
       condition:
         match:
           all:
@@ -51,3 +41,9 @@ resourcePolicy:
               # Make sure there is a namespace
               - expr: R.id.indexOf('/') > 0
               - expr: R.id.split("/")[0] in P.attr.entitlements
+
+    # Allow everything for system users
+    - actions: ['*']
+      effect: EFFECT_ALLOW
+      roles:
+        - system

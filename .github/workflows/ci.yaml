@@ -32,9 +32,6 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        go: ['1.21']
 
     steps:
       - name: Checkout repository
@@ -49,15 +46,11 @@ jobs:
       - name: Set up magic Nix cache
         uses: DeterminateSystems/magic-nix-cache-action@8a218f9e264e9c3803c9a1ee1c30d8e4ab55be63 # v2
 
-      - name: Shell name
-        id: shell
-        run: echo "value=ci_$(echo "${{ matrix.go }}" | sed 's/\./_/')" >> "$GITHUB_OUTPUT"
-
       - name: Prepare Nix shell
-        run: nix develop --impure .#${{ steps.shell.outputs.value }}
+        run: nix develop --impure .#ci
 
       - name: Test
-        run: nix develop --impure .#${{ steps.shell.outputs.value }} -c go test -race -v ./...
+        run: nix develop --impure .#ci -c go test -race -v ./...
 
   e2e:
     name: E2E test
@@ -79,18 +72,13 @@ jobs:
       - name: Prepare Nix shell
         run: nix develop --impure .#ci
 
-      # Run this first to avoid permission issues with Docker
-      - name: Download Alpine image
-        run: nix develop --impure .#ci -c just download-alpine
+      - name: Run Dagger pipeline
+        run: nix develop --impure .#ci -c dagger run mage -d ci test
+        env:
+           DAGGER_CLOUD_TOKEN: ${{ secrets.DAGGER_CLOUD_TOKEN }}
 
-      - name: Launch Docker Compose
-        run: docker compose -f docker-compose.yaml -f docker-compose.ci.yaml up -d
-
-      - name: Test
-        run: nix develop --impure .#ci -c just login test-all
-
-      - name: Cleanup Docker Compose
-        run: docker compose -f docker-compose.yaml -f docker-compose.ci.yaml down -v
+      - name: Stop Engine
+        run: docker stop -t 300 $(docker ps --filter name="dagger-engine-*" -q)
         if: always()
 
   lint:

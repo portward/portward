@@ -1,0 +1,22 @@
+_login() {
+    regctl --verbosity debug registry set --tls=disabled $3
+    regctl --verbosity debug registry login -u $1 -p $2 $3
+}
+
+_logout() {
+    regctl --verbosity debug registry logout $1
+}
+
+push() {
+    regctl --verbosity debug image import $2 $1
+}
+
+inspect() {
+    regctl image inspect $1
+}
+
+pull() {
+    regctl image export $1 /dev/null
+}
+
+# vim:syntax=bash filetype=bash
