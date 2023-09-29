@@ -104,25 +104,44 @@
             };
           };
 
-          dagger = pkgs.buildGoModule rec {
+          dagger = pkgs.stdenv.mkDerivation rec {
             pname = "dagger";
-            version = "0.8.7";
+            version = "nightly";
 
-            src = pkgs.fetchFromGitHub {
-              owner = "dagger";
-              repo = "dagger";
-              rev = "v${version}";
-              hash = "sha256-vlHLqqUMZAuBgI5D1L2g6u3PDZsUp5oUez4x9ydOUtM=";
-            };
+            src =
+              let
+                selectSystem = attrs: attrs.${system} or (throw "Unsupported system: ${system}");
 
-            vendorHash = "sha256-B8Qvyvh9MRGFDBvc/Hu+IitBBdHvEU3QjLJuIy1S04A=";
-            proxyVendor = true;
+                suffix = selectSystem {
+                  x86_64-linux = "linux-amd64";
+                  x86_64-darwin = "darwin-amd64";
+                  aarch64-linux = "linux-arm64";
+                  aarch64-darwin = "darwin-arm64";
+                };
+                sha256 = selectSystem {
+                  x86_64-linux = "sha256-C4z1ri0WMw2ehMygaWy6VbFe8wYBn0LDpe6beukNqyY=";
+                  x86_64-darwin = "sha256-l6s6sCTrOYOXYw5SNfCf2b28UxZJT60XJ8og7X6Tx8A=";
+                  aarch64-linux = "sha256-6sgVeeNPa4EXhjE78xZb72fP9dBQPTtBQbieODQ58hA=";
+                  aarch64-darwin = "sha256-OtoXSmenvy8OJ+UXfkl6b3OXittx+JKHjUyjkkpBv1g=";
+                };
+              in
+              pkgs.fetchurl {
+                inherit sha256;
+                url = "https://github.com/jpadams/shykes-dagger-zenith-builder/releases/download/${version}/dagger-zenith-${suffix}";
+              };
 
-            subPackages = [
-              "cmd/dagger"
-            ];
+            dontConfigure = true;
+            dontUnpack = true;
+            dontBuild = true;
+            dontStrip = pkgs.stdenv.isDarwin;
+            dontPatchELF = true;
+            dontPatchShebangs = true;
 
-            ldflags = [ "-s" "-w" "-X github.com/dagger/dagger/engine.Version=${version}" ];
+            installPhase = ''
+              runHook preInstall
+              install -D ${src} $out/bin/dagger
+              runHook postInstall
+            '';
           };
         };
       };
