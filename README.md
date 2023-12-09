@@ -24,9 +24,45 @@
 
 **For an optimal developer experience, it is recommended to install [Nix](https://nixos.org/download.html) and [direnv](https://direnv.net/docs/installation.html).**
 
-1. `docker compose up -d`
-1. `just run`
-1. `just test-all`
+### Using Dagger
+
+Run tests:
+
+```shell
+dagger call test
+```
+
+Run linters:
+
+```shell
+dagger call lint
+```
+
+### Manual workflow
+
+Launch dependencies:
+
+```shell
+docker compose up -d
+```
+
+Run the service
+
+```shell
+just run
+```
+
+Run tests
+
+```shell
+just test-all
+```
+
+Cleanup:
+
+```shell
+docker compose down -v
+```
 
 ## License
 
