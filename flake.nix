@@ -1,9 +1,10 @@
 {
   inputs = {
-    # nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    nixpkgs.url = "github:NixOS/nixpkgs/master";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     flake-parts.url = "github:hercules-ci/flake-parts";
     devenv.url = "github:cachix/devenv";
+    dagger.url = "github:dagger/nix";
+    dagger.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = inputs@{ flake-parts, ... }:
@@ -19,22 +20,24 @@
           default = {
             languages = {
               go.enable = true;
-              go.package = pkgs.go_1_21;
             };
 
             packages = with pkgs; [
               just
               mage
-              # dagger
+              golangci-lint
               (bats.withLibraries (p: [ p.bats-support p.bats-assert p.bats-file ]))
 
               skopeo
               regctl
             ] ++ [
-              self'.packages.golangci-lint
               self'.packages.service-locator-gen
-              self'.packages.dagger
+              inputs'.dagger.packages.dagger
             ];
+
+            env = {
+              DAGGER_MODULE = "ci";
+            };
 
             # https://github.com/cachix/devenv/issues/528#issuecomment-1556108767
             containers = pkgs.lib.mkForce { };
@@ -58,71 +61,9 @@
               sha256 = "sha256-mmlHm1zJRSpjotoy1vSG/c56fTH5WYYUjM1NKPnk99c=";
             };
 
-            vendorSha256 = "sha256-/+VGWI73NEyZgKSxe6MP4alO/J58eTwl8HrTLzGFueo=";
+            vendorHash = "sha256-/+VGWI73NEyZgKSxe6MP4alO/J58eTwl8HrTLzGFueo=";
 
             subPackages = [ "." ];
-          };
-
-          golangci-lint = pkgs.buildGo121Module rec {
-            pname = "golangci-lint";
-            version = "1.54.2";
-
-            src = pkgs.fetchFromGitHub {
-              owner = "golangci";
-              repo = "golangci-lint";
-              rev = "v${version}";
-              hash = "sha256-7nbgiUrp7S7sXt7uFXX8NHYbIRLZZQcg+18IdwAZBfE=";
-            };
-
-            vendorHash = "sha256-IyH5lG2a4zjsg/MUonCUiAgMl4xx8zSflRyzNgk8MR0=";
-
-            subPackages = [ "cmd/golangci-lint" ];
-
-            nativeBuildInputs = [ pkgs.installShellFiles ];
-
-            ldflags = [
-              "-s"
-              "-w"
-              "-X main.version=${version}"
-              "-X main.commit=v${version}"
-              "-X main.date=19700101-00:00:00"
-            ];
-
-            postInstall = ''
-              for shell in bash zsh fish; do
-                HOME=$TMPDIR $out/bin/golangci-lint completion $shell > golangci-lint.$shell
-                installShellCompletion golangci-lint.$shell
-              done
-            '';
-
-            meta = with pkgs.lib; {
-              description = "Fast linters Runner for Go";
-              homepage = "https://golangci-lint.run/";
-              changelog = "https://github.com/golangci/golangci-lint/blob/v${version}/CHANGELOG.md";
-              license = licenses.gpl3Plus;
-              maintainers = with maintainers; [ anpryl manveru mic92 ];
-            };
-          };
-
-          dagger = pkgs.buildGoModule rec {
-            pname = "dagger";
-            version = "0.8.7";
-
-            src = pkgs.fetchFromGitHub {
-              owner = "dagger";
-              repo = "dagger";
-              rev = "v${version}";
-              hash = "sha256-vlHLqqUMZAuBgI5D1L2g6u3PDZsUp5oUez4x9ydOUtM=";
-            };
-
-            vendorHash = "sha256-B8Qvyvh9MRGFDBvc/Hu+IitBBdHvEU3QjLJuIy1S04A=";
-            proxyVendor = true;
-
-            subPackages = [
-              "cmd/dagger"
-            ];
-
-            ldflags = [ "-s" "-w" "-X github.com/dagger/dagger/engine.Version=${version}" ];
           };
         };
       };
