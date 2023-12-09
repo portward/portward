@@ -1,7 +1,7 @@
 package config
 
 import (
-	cerbosauthorizer "github.com/portward/cerbos-authorizer"
+	"github.com/portward/cerbos"
 	"github.com/portward/registry-auth/auth"
 	"github.com/portward/registry-auth/auth/authz"
 	"gopkg.in/yaml.v3"
@@ -24,7 +24,7 @@ func RegisterAuthorizerFactory(name string, factory func() AuthorizerFactory) {
 
 func init() {
 	RegisterAuthorizerFactory("default", func() AuthorizerFactory { return defaultAuthorizer{} })
-	RegisterAuthorizerFactory("cerbos", func() AuthorizerFactory { return cerbosauthorizer.Config{} })
+	RegisterAuthorizerFactory("cerbos", func() AuthorizerFactory { return cerbos.Config{} })
 }
 
 // Authorizer is the configuration for an auth.Authorizer.
