@@ -73,9 +73,9 @@ jobs:
         run: nix develop --impure .#ci
 
       - name: Run Dagger pipeline
-        run: nix develop --impure .#ci -c dagger run mage -d ci test
+        run: nix develop --impure .#ci -c dagger call test
         env:
-           DAGGER_CLOUD_TOKEN: ${{ secrets.DAGGER_CLOUD_TOKEN }}
+          DAGGER_CLOUD_TOKEN: ${{ secrets.DAGGER_CLOUD_TOKEN }}
 
       - name: Stop Engine
         run: docker stop -t 300 $(docker ps --filter name="dagger-engine-*" -q)
