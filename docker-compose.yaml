@@ -19,7 +19,7 @@ services:
       - ./etc/zot:/etc/zot
 
   cerbos:
-    image: ghcr.io/cerbos/cerbos:0.30.0
+    image: ghcr.io/cerbos/cerbos:0.32.0
     ports:
       - 127.0.0.1:3592:3592
       - 127.0.0.1:3593:3593

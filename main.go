@@ -134,26 +134,25 @@ func main() {
 		os.Exit(1)
 	}
 
-	var service auth.TokenService
+	var service auth.AuthorizationService
 
-	service = auth.TokenServiceImpl{
+	service = auth.AuthorizationServiceImpl{
 		Authenticator: authenticator,
 		Authorizer:    authorizer,
 		TokenIssuer:   tokenIssuer,
 	}
-	service = auth.LoggerTokenService{
+	service = auth.LoggerAuthorizationService{
 		Service: service,
 		Logger:  logger,
 	}
 
-	server := auth.TokenServer{
+	server := auth.AuthorizationServer{
 		Service:      service,
 		ErrorHandler: auth.LogErrorHandler{Logger: logger},
 	}
 
 	router := mux.NewRouter()
-	router.Path("/token").Methods("GET").HandlerFunc(server.TokenHandler)
-	router.Path("/token").Methods("POST").HandlerFunc(server.OAuth2Handler)
+	router.Path("/token").Handler(server)
 
 	logger.Info("launching server")
 

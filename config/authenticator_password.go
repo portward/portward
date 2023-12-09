@@ -6,7 +6,7 @@ import (
 
 	"github.com/portward/registry-auth/auth"
 	"github.com/portward/registry-auth/auth/authn"
-	unkeyauthenticator "github.com/portward/unkey-authenticator"
+	"github.com/portward/unkey"
 	"gopkg.in/yaml.v3"
 
 	"github.com/portward/portward/pkg/slices"
@@ -29,7 +29,7 @@ func RegisterPasswordAuthenticatorFactory(name string, factory func() PasswordAu
 
 func init() {
 	RegisterPasswordAuthenticatorFactory("user", func() PasswordAuthenticatorFactory { return userAuthenticator{} })
-	RegisterPasswordAuthenticatorFactory("unkey", func() PasswordAuthenticatorFactory { return unkeyauthenticator.Config{} })
+	RegisterPasswordAuthenticatorFactory("unkey", func() PasswordAuthenticatorFactory { return unkey.Config{} })
 }
 
 // PasswordAuthenticator is the configuration for an [auth.PasswordAuthenticator].
