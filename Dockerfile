@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM golang:1.21.5-alpine3.18@sha256:5c1cabd9a3c6851a3e18735a2c133fbd8f67fe37eb3203318b7af2ffd2547095 AS builder
+FROM --platform=$BUILDPLATFORM golang:1.21.6-alpine3.18@sha256:869193e7c30611d635c7bc3d1ed879039b7d24710a03474437d402f06825171e AS builder
 
 RUN apk add --update --no-cache ca-certificates make git curl
 
