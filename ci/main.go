@@ -8,19 +8,19 @@ import (
 )
 
 const (
-	goVersion           = "1.21.5"
+	goVersion           = "1.21.6"
 	golangciLintVersion = "v1.55.2"
 
-	cerbosVersion         = "0.32.0"
-	dockerRegistryVersion = "2.8.2"
+	cerbosVersion         = "0.33.0"
+	dockerRegistryVersion = "2.8.3"
 
 	batsVersion = "v1.10.0"
 
 	skopeoImageRepo = "quay.io/skopeo/stable"
-	skopeoVersion   = "v1.13.3"
+	skopeoVersion   = "v1.14.1"
 
 	regclientImageRepo = "ghcr.io/regclient/regctl"
-	regclientVersion   = "v0.5.1"
+	regclientVersion   = "v0.5.6"
 )
 
 type Ci struct{}
