@@ -4,7 +4,7 @@ go 1.21.0
 
 require (
 	github.com/docker/libtrust v0.0.0-20160708172513-aabc10ec26b7
-	github.com/golang-jwt/jwt/v4 v4.5.0
+	github.com/golang-jwt/jwt/v4 v4.5.1
 	github.com/gorilla/mux v1.8.1
 	github.com/mitchellh/mapstructure v1.5.0
 	github.com/portward/cerbos v0.4.0
